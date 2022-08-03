@@ -18,6 +18,7 @@ function HeroLayout({children, pageContext, location}) {
         isSearchEnabled={pageContext.isSearchEnabled}
         navItems={pageContext.navItems}
         headerNavItems={pageContext.headerNavItems}
+        repositoryUrl={pageContext.repositoryUrl}
       />
       <Flex flex="1 1 auto" flexDirection="row">
         <Box display={['none', null, null, 'block']}>
@@ -28,6 +29,7 @@ function HeroLayout({children, pageContext, location}) {
               pageContext.themeOptions.editOnGitHub
             }
             location={location}
+            repositoryUrl={pageContent.repositoryUrl}
           />
         </Box>
         <Box width="100%">

@@ -40,7 +40,7 @@ export function useNavDrawerState(breakpoint) {
   return [isOpen, setOpen]
 }
 
-function NavDrawer({navItems, headerNavItems, location, isOpen, onDismiss}) {
+function NavDrawer({navItems, headerNavItems, repositoryUrl, location, isOpen, onDismiss}) {
   const siteMetadata = useSiteMetadata()
   return (
     <Drawer isOpen={isOpen} onDismiss={onDismiss}>
@@ -81,7 +81,7 @@ function NavDrawer({navItems, headerNavItems, location, isOpen, onDismiss}) {
           </BorderBox>
           {navItems.length > 0 ? (
             <Flex flexDirection="column">
-              <NavItems location={location} items={navItems} editOnGitHub={false} />
+              <NavItems location={location} items={navItems} editOnGitHub={false} repositoryUrl={repositoryUrl} />
             </Flex>
           ) : null}
         </Flex>

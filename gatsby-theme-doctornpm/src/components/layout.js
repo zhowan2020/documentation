@@ -65,6 +65,7 @@ function Layout({children, pageContext, location}) {
           isSearchEnabled={pageContext.isSearchEnabled}
           navItems={pageContext.navItems}
           headerNavItems={pageContext.headerNavItems}
+          repositoryUrl={pageContext.repositoryUrl}
         />
         <Flex flex="1 1 auto" flexDirection="row" css={{zIndex: 0}}>
           <Box display={['none', null, null, 'block']}>
@@ -75,6 +76,7 @@ function Layout({children, pageContext, location}) {
                 pageContext.themeOptions.editOnGitHub
               }
               location={location}
+              repositoryUrl={pageContent.repositoryUrl}
             />
           </Box>
           <Grid

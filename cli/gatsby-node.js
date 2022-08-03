@@ -1,8 +1,16 @@
+const {transformPage} = require('./cli.js')
+
 exports.onCreateNode = ({node, actions, getNode}) => {
   const {createNodeField} = actions;
 
-  if (node.internal.type === "Mdx") {
+  if (node.internal.type === "Mdx") {    
     const file = getNode(node.parent);
+
+    if (file.sourceInstanceName.startsWith('cli-')) {
+
+    }
+
+    console.log(file)
 
     // cli paths are unchanged
     if (file.relativeDirectory.startsWith('cli/')) {

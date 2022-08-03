@@ -3,7 +3,7 @@ import React from 'react'
 import {HEADER_HEIGHT} from './header'
 import NavItems from './nav-items'
 
-function Sidebar({navItems, location, editOnGitHub}) {
+function Sidebar({navItems, repositoryUrl, location, editOnGitHub}) {
   return (
     <Position
       position="sticky"
@@ -21,7 +21,7 @@ function Sidebar({navItems, location, editOnGitHub}) {
         style={{overflow: 'auto'}}
       >
         <Flex flexDirection="column">
-          <NavItems location={location} items={navItems} editOnGitHub={editOnGitHub} />
+          <NavItems location={location} items={navItems} editOnGitHub={editOnGitHub} repositoryUrl={repositoryUrl} />
         </Flex>
       </BorderBox>
     </Position>

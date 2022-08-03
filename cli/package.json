@@ -1,0 +1,11 @@
+{
+  "name": "cli",
+  "peerDependencies": {
+    "react": "^16.9.x",
+    "react-dom": "^16.9.x"
+  },
+  "dependencies": {
+    "gatsby": "^2.32.7",
+    "gatsby-source-filesystem": "^2.1.0"
+  }
+}

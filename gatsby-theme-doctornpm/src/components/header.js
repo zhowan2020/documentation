@@ -22,7 +22,7 @@ const NpmHeaderBar = styled(Box)`
   background-image: linear-gradient(139deg, #fb8817, #ff4b01, #c12127, #e02aff);
 `
 
-function Header({navItems, headerNavItems, location, isSearchEnabled = true}) {
+function Header({navItems, headerNavItems, repositoryUrl, location, isSearchEnabled = true}) {
   const theme = React.useContext(ThemeContext)
   const [isNavDrawerOpen, setIsNavDrawerOpen] = useNavDrawerState(
     theme.breakpoints[2],
@@ -91,6 +91,7 @@ function Header({navItems, headerNavItems, location, isSearchEnabled = true}) {
               location={location}
               isOpen={isNavDrawerOpen}
               onDismiss={() => setIsNavDrawerOpen(false)}
+              repositoryUrl={repositoryUrl}
             />
           </Flex>
         </Flex>

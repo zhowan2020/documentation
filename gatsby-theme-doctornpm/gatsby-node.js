@@ -1,15 +1,20 @@
 const path = require('path')
-const readPkgUp = require('read-pkg-up')
-const getPkgRepo = require('get-pkg-repo')
 const axios = require('axios')
 const uniqBy = require('lodash.uniqby')
 const yaml = require('yaml')
 const fs = require('fs')
-
-const NAV_ITEMS = yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/nav2.yml'), 'utf-8'))
-const HEADER_NAV_ITEMS = yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/header-nav.yml'), 'utf-8'))
+const getCliSource = require('../cli/index')
 
 const CONTRIBUTOR_CACHE = new Map()
+
+// const CLI_SOURCE = getCliSource()
+
+const NAV_ITEMS = [
+  ...yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/nav.yml'), 'utf-8')),
+  //CLI_SOURCE.nav
+]
+
+const HEADER_NAV_ITEMS = yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/header-nav.yml'), 'utf-8'))
 
 exports.createSchemaCustomization = ({actions: {createTypes}}) => {
   createTypes(`
@@ -18,6 +23,7 @@ exports.createSchemaCustomization = ({actions: {createTypes}}) => {
       fields: MdxFields
     }
     type MdxFrontmatter {
+      title: String,
       github_repo: String,
       github_branch: String,
       github_path: String,
@@ -26,13 +32,19 @@ exports.createSchemaCustomization = ({actions: {createTypes}}) => {
       redirect_from: [String]
     }
     type MdxFields {
-      slug: String
+      title: String,
+      github_repo: String,
+      github_branch: String,
+      github_path: String,
+      edit_on_github: Boolean,
+      slug: String,
+      redirect_from: [String]
     }
   `);
 }
 
 exports.createPages = async ({graphql, actions}, themeOptions) => {
-  const repo = themeOptions.repo ? themeOptions.repo : { url: getPkgRepo(readPkgUp.sync().package).browse() };
+  const repo = themeOptions.repo
 
   const {data} = await graphql(`
     {
@@ -41,7 +53,13 @@ exports.createPages = async ({graphql, actions}, themeOptions) => {
           id
           fileAbsolutePath
           fields {
+            title
+            github_repo
+            github_branch
+            github_path
+            edit_on_github
             slug
+            redirect_from
           }
           frontmatter {
             title
@@ -75,7 +93,7 @@ exports.createPages = async ({graphql, actions}, themeOptions) => {
 
       const rootAbsolutePath = path.resolve(
         process.cwd(),
-        themeOptions.repoRootPath || '.',
+        '.',
       )
 
       const fileRelativePath = path.relative(
@@ -101,6 +119,7 @@ exports.createPages = async ({graphql, actions}, themeOptions) => {
           tableOfContents: node.tableOfContents,
           navItems: NAV_ITEMS,
           headerNavItems: HEADER_NAV_ITEMS,
+          repositoryUrl: repo.url,
         },
       })
 
