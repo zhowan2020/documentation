@@ -8,6 +8,9 @@
     "build": "gatsby build",
     "serve": "gatsby serve"
   },
+  "workspaces": [
+    "gatsby-theme-doctornpm"
+  ],
   "dependencies": {
     "gatsby": "^2.32.7",
     "gatsby-plugin-meta-redirect": "^1.1.1",
