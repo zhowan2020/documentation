@@ -21,7 +21,7 @@ function VariantSelect(props) {
       return null;
   }
 
-  const variantPages = NavHierarchy.getVariantsForPage(props.root, vp.page);
+  const variantPages = NavHierarchy.getVariantsForPage(props.root, vp.page, props.navItems);
   const items = [];
   let selectedItem = variantPages[0];
 

@@ -91,13 +91,12 @@ file, just beneath your frontmatter:
 ---
 title: Using shared content
 ---
-import shared form '../../../src/shared.js'
 ```
 
 And then reference the shared content within `<>`:
 
 ```
-To login, <>{shared['user-login'].text}</>
+To login, <Shared.user_login.text />
 ```
 
 ### URLs

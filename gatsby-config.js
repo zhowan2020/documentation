@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   siteMetadata: {
     title: 'npm Docs',
@@ -8,9 +10,17 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'content',
+        path: path.resolve('./content'),
+        ignore: ['*.js', '*.yml']
+      },
+    },
+    {
       resolve: 'gatsby-theme-doctornpm',
       options: {
-        icon: './src/images/npm-favicon.png',
+        icon: './static/npm-favicon.png',
         editOnGitHub: true,
         showContributors: false,
         showSidebarEditLink: false,
@@ -20,7 +30,6 @@ module.exports = {
         }
       },
     },
-    'gatsby-plugin-meta-redirect'
   ],
   pathPrefix: process.env.PATH_PREFIX || '',
 }

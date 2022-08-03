@@ -31,6 +31,7 @@ function showHierarchy(items, props, depth = 1) {
 }
 
 function Index(props) {
+  console.log(props)
     return (
         <Location>
             {({location}) => {
@@ -38,7 +39,7 @@ function Index(props) {
                 let root = props.root ? props.root : path;
                 root = root.replace(/\/+$/g, '');
 
-                const rootItem = NavHierarchy.getItem(root);
+                const rootItem = NavHierarchy.getItem(root, props.pageContext.navItems);
                 const hierarchy = NavHierarchy.getHierarchy(rootItem, props);
 
                 if (!hierarchy) {

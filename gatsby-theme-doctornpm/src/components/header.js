@@ -7,7 +7,6 @@ import {Link as GatsbyLink} from 'gatsby'
 import React from 'react'
 import styled from 'styled-components';
 import {ThemeContext} from 'styled-components'
-import headerNavItems from '../header-nav.yml'
 import useSiteMetadata from '../use-site-metadata'
 import DarkButton from './dark-button'
 import MobileSearch from './mobile-search'
@@ -23,7 +22,7 @@ const NpmHeaderBar = styled(Box)`
   background-image: linear-gradient(139deg, #fb8817, #ff4b01, #c12127, #e02aff);
 `
 
-function Header({location, isSearchEnabled = true}) {
+function Header({navItems, headerNavItems, location, isSearchEnabled = true}) {
   const theme = React.useContext(ThemeContext)
   const [isNavDrawerOpen, setIsNavDrawerOpen] = useNavDrawerState(
     theme.breakpoints[2],
@@ -87,6 +86,8 @@ function Header({location, isSearchEnabled = true}) {
               <ThreeBarsIcon />
             </DarkButton>
             <NavDrawer
+              navItems={navItems}
+              headerNavItems={headerNavItems}
               location={location}
               isOpen={isNavDrawerOpen}
               onDismiss={() => setIsNavDrawerOpen(false)}

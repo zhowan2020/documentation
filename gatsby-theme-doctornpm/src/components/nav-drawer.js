@@ -3,8 +3,6 @@ import {ChevronDownIcon, ChevronUpIcon, XIcon} from '@primer/octicons-react'
 import {Link as GatsbyLink} from 'gatsby'
 import debounce from 'lodash.debounce'
 import React from 'react'
-import navItems from '../nav.yml'
-import headerNavItems from '../header-nav.yml'
 import useSiteMetadata from '../use-site-metadata'
 import DarkButton from './dark-button'
 import Details from './details'
@@ -42,7 +40,7 @@ export function useNavDrawerState(breakpoint) {
   return [isOpen, setOpen]
 }
 
-function NavDrawer({location, isOpen, onDismiss}) {
+function NavDrawer({navItems, headerNavItems, location, isOpen, onDismiss}) {
   const siteMetadata = useSiteMetadata()
   return (
     <Drawer isOpen={isOpen} onDismiss={onDismiss}>

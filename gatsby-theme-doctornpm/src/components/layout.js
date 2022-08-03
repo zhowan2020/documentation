@@ -26,6 +26,16 @@ import StatusLabel from './status-label'
 import TableOfContents from './table-of-contents'
 import VariantSelect from './variant-select'
 import NavHierarchy from '../nav-hierarchy'
+import shared from '../../../content/shared'
+
+const Shared = Object.entries(shared).reduce((acc, [k, v]) => {
+  const compKey = k.replace(/-/g, '_')
+  acc[compKey] = Object.entries(v).reduce((acc2, [k2, v2]) => {
+    acc2[k2] = () => v2
+    return acc2
+  }, {})
+  return acc
+}, {})
 
 function Layout({children, pageContext, location}) {
   const {
@@ -36,11 +46,12 @@ function Layout({children, pageContext, location}) {
     additionalContributors = [],
   } = pageContext.frontmatter
 
-  const variantRoot = NavHierarchy.getVariantRoot(location.pathname);
+  const variantRoot = NavHierarchy.getVariantRoot(location.pathname, pageContext.navItems);
 
   return (
     <MDXProvider components={{
-      Index,
+      Shared,
+      Index: (props) => <Index {...props} pageContext={pageContext} />,
       Note,
       Prompt,
       PromptReply,
@@ -49,10 +60,16 @@ function Layout({children, pageContext, location}) {
 
       <Flex flexDirection="column" minHeight="100vh">
         <Head title={title} description={description} />
-        <Header location={location} isSearchEnabled={pageContext.isSearchEnabled} />
+        <Header
+          location={location}
+          isSearchEnabled={pageContext.isSearchEnabled}
+          navItems={pageContext.navItems}
+          headerNavItems={pageContext.headerNavItems}
+        />
         <Flex flex="1 1 auto" flexDirection="row" css={{zIndex: 0}}>
           <Box display={['none', null, null, 'block']}>
             <Sidebar
+              navItems={pageContext.navItems}
               editOnGitHub={
                 pageContext.themeOptions.showSidebarEditLink &&
                 pageContext.themeOptions.editOnGitHub
@@ -91,7 +108,14 @@ function Layout({children, pageContext, location}) {
               </BorderBox>
               {variantRoot != null ? (
                 <Box css={{'margin-top': '25px'}}>
-                  <VariantSelect overlay={true} direction="se" menuWidth="min(30ch, 500px)" root={variantRoot} location={location} />
+                  <VariantSelect
+                    overlay={true}
+                    direction="se"
+                    menuWidth="min(30ch, 500px)"
+                    root={variantRoot}
+                    location={location}
+                    navItems={pageContext.navItems}
+                  />
                 </Box>
               ) : null}
             </Box>

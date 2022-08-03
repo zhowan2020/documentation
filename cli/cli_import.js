@@ -41,8 +41,8 @@ const docsPath = path.dirname(__dirname);
 const inputPath = path.join(docsPath, 'cli');
 const outputPath = path.join(docsPath, 'content');
 
-const baseNavFile = path.join(docsPath, 'src', 'nav-base.yml');
-const outputNavFile = path.join(docsPath, 'src', 'gatsby-theme-doctornpm', 'nav.yml');
+const baseNavFile = path.join(docsPath, 'content', 'nav.yml');
+const outputNavFile = path.join(docsPath, 'content', 'nav2.yml');
 
 const cliTitle = 'npm CLI';
 const cliUrl = '/cli';

@@ -18,11 +18,13 @@ const repositoryUrl = preval`
   }
 `
 
-const getActiveProps = (className) => (props) => {
+const getActiveProps = (className, baseProps) => (props) => {
   const location = NavHierarchy.getLocation(props.location.pathname);
   const href = NavHierarchy.getLocation(props.href);
 
-  if (NavHierarchy.isActiveUrl(location, href)) {
+  console.trace(baseProps)
+
+  if (NavHierarchy.isActiveUrl(location, href, baseProps.items)) {
       return { className: `${className} active` };
   }
 
@@ -30,7 +32,7 @@ const getActiveProps = (className) => (props) => {
 }
 
 const ActiveLink = ({className, children, ...props}) => (
-  <Link as={GatsbyLink} getProps={getActiveProps(className)} {...props}>
+  <Link as={GatsbyLink} getProps={getActiveProps(className, props)} {...props}>
     {children}
   </Link>
 )
@@ -87,7 +89,7 @@ const Description = styled(Box)`
   }
 `
 
-function topLevelItems(items, path) {
+function topLevelItems(items, path, navItems) {
     if (items == null) {
         return null;
     }
@@ -95,7 +97,7 @@ function topLevelItems(items, path) {
     return (
       <>
         {items.map((item) => {
-          const children = NavHierarchy.isActiveUrl(path, item.url) ? NavHierarchy.getHierarchy(item, { path: path, hideVariants: true }) : null;
+          const children = NavHierarchy.isActiveUrl(path, item.url, navItems) ? NavHierarchy.getHierarchy(item, { path: path, hideVariants: true }) : null;
 
           return (
             <BorderBox
@@ -107,8 +109,8 @@ function topLevelItems(items, path) {
               px={4}
             >
               <Flex flexDirection="column">
-                <TopLevelLink to={item.url} key={item.title}>{item.title}</TopLevelLink>
-                {secondLevelItems(children, path)}
+                <TopLevelLink to={item.url} key={item.title} items={navItems}>{item.title}</TopLevelLink>
+                {secondLevelItems(children, path, navItems)}
               </Flex>
             </BorderBox>
           )
@@ -117,7 +119,7 @@ function topLevelItems(items, path) {
     );
 }
 
-function secondLevelItems(items, path) {
+function secondLevelItems(items, path, navItems) {
     if (items == null) {
         return null;
     }
@@ -125,10 +127,10 @@ function secondLevelItems(items, path) {
     return (
       <Flex flexDirection="column" mt={2}>
         {items.map((item) => {
-          const children = NavHierarchy.isActiveUrl(path, item.url) ? NavHierarchy.getHierarchy(item, { path: path, hideVariants: true }) : null;
+          const children = NavHierarchy.isActiveUrl(path, item.url, navItems) ? NavHierarchy.getHierarchy(item, { path: path, hideVariants: true }) : null;
           return(
             <Box key={item.title}>
-              <SecondLevelLink key={item.url} to={item.url}>
+              <SecondLevelLink key={item.url} to={item.url} items={navItems}>
                 {item.title}
                 {item.description != null ? (
                   <>
@@ -136,7 +138,7 @@ function secondLevelItems(items, path) {
                   </>
                 ) : null}
               </SecondLevelLink>
-              {thirdLevelItems(children, path)}
+              {thirdLevelItems(children, path, navItems)}
             </Box>
           )
         })}
@@ -144,7 +146,7 @@ function secondLevelItems(items, path) {
     );
 }
 
-function thirdLevelItems(items, path) {
+function thirdLevelItems(items, path, navItems) {
     if (items == null) {
         return null;
     }
@@ -152,7 +154,7 @@ function thirdLevelItems(items, path) {
     return (
       <Flex flexDirection="column" mt={2}>
         {items.map((item) => (
-          <ThirdLevelLink key={item.url} to={item.url}>
+          <ThirdLevelLink key={item.url} to={item.url} items={navItems}>
             {item.title}
           </ThirdLevelLink>
         ))}
@@ -179,11 +181,13 @@ function githubLink(props) {
 
 function NavItems(props) {
   const path = NavHierarchy.getLocation(props.location.pathname);
-  const items = NavHierarchy.getHierarchy(null, { path: path, hideVariants: true }); 
+  const items = NavHierarchy.getHierarchy({ children: props.items }, { path: path, hideVariants: true }); 
+
+  console.log(props)
 
   return (
     <>
-      {topLevelItems(items, path)}
+      {topLevelItems(items, path, props.items)}
       {props.editOnGitHub !== false ? githubLink(props) : null}
     </>
   )

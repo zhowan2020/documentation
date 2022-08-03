@@ -13,10 +13,16 @@ function HeroLayout({children, pageContext, location}) {
   return (
     <Flex flexDirection="column" minHeight="100vh">
       <Head />
-      <Header location={location} isSearchEnabled={pageContext.isSearchEnabled} />
+      <Header
+        location={location}
+        isSearchEnabled={pageContext.isSearchEnabled}
+        navItems={pageContext.navItems}
+        headerNavItems={pageContext.headerNavItems}
+      />
       <Flex flex="1 1 auto" flexDirection="row">
         <Box display={['none', null, null, 'block']}>
           <Sidebar
+            navItems={pageContext.navItems}
             editOnGitHub={
               pageContext.themeOptions.showSidebarEditLink &&
               pageContext.themeOptions.editOnGitHub

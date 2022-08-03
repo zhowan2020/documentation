@@ -1,4 +1,3 @@
-import navItems from './nav.yml';
 import { withPrefix } from "gatsby";
 
 export default {
@@ -21,7 +20,7 @@ export default {
         return path;
     },
 
-    getVariantRoot(path) {
+    getVariantRoot(path, items) {
         path = this.getPath(path);
 
         return this.findItem((item) => {
@@ -30,10 +29,10 @@ export default {
             }
 
             return null;
-        });
+        }, items);
     },
 
-    findItem(fn, items = navItems) {
+    findItem(fn, items) {
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             let result = fn(item);
@@ -50,7 +49,7 @@ export default {
         return null;
     },
 
-    getItemHierarchy(path, items = navItems) {
+    getItemHierarchy(path, items) {
         if (!path) {
             return null;
         }
@@ -76,7 +75,7 @@ export default {
         return null;
     },
 
-    getItem(path, items = navItems) {
+    getItem(path, items) {
         if (!path) {
             return { url: '/', children: items };
         }
@@ -106,7 +105,7 @@ export default {
         return (this.getPath(item.url) === this.getPath(path));
     },
 
-    isChildItem(path, items = navItems) {
+    isChildItem(path, items) {
         if (!path) {
             return false;
         }
@@ -117,10 +116,7 @@ export default {
     getHierarchy(root, props = { }) {
         let children;
 
-        if (!root) {
-            children = navItems;
-        }
-        else if (root.variants && props.hideVariants === true) {
+        if (root.variants && props.hideVariants === true) {
             const variant = this.getCurrentOrDefaultVariant(root, props.path);
             children = variant.children;
         }
@@ -210,9 +206,12 @@ export default {
         return { variant: match[1], page: match[2] };
     },
 
-    getVariantsForPage(root, page) {
+    getVariantsForPage(root, page, items) {
         const pages = [];
-        const rootItem = this.findItem((item) => this.getPath(item.url) === this.getPath(root) ? item : null);
+        const rootItem = this.findItem(
+            (item) => this.getPath(item.url) === this.getPath(root) ? item : null,
+            items
+        );
 
         if (rootItem && rootItem.variants) {
             rootItem.variants.forEach((variant) => {
@@ -249,8 +248,8 @@ export default {
                 (linkItem.variants && this.isChildItem(currentPath, linkItem.variants)));
     },
 
-    isActiveUrl(currentPath, linkPath) {
-        const linkItem = this.getItem(linkPath);
+    isActiveUrl(currentPath, linkPath, items) {
+        const linkItem = this.getItem(linkPath, items);
         return linkItem ? this.isActiveItem(currentPath, linkItem) : false;
     }
 }

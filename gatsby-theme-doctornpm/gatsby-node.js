@@ -3,6 +3,11 @@ const readPkgUp = require('read-pkg-up')
 const getPkgRepo = require('get-pkg-repo')
 const axios = require('axios')
 const uniqBy = require('lodash.uniqby')
+const yaml = require('yaml')
+const fs = require('fs')
+
+const NAV_ITEMS = yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/nav2.yml'), 'utf-8'))
+const HEADER_NAV_ITEMS = yaml.parse(fs.readFileSync(path.resolve(__dirname, '../content/header-nav.yml'), 'utf-8'))
 
 const CONTRIBUTOR_CACHE = new Map()
 
@@ -94,6 +99,8 @@ exports.createPages = async ({graphql, actions}, themeOptions) => {
           editUrl,
           contributors,
           tableOfContents: node.tableOfContents,
+          navItems: NAV_ITEMS,
+          headerNavItems: HEADER_NAV_ITEMS,
         },
       })
 

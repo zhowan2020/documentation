@@ -1,7 +1,6 @@
 ---
 title: Requiring 2FA for package publishing and settings modification
 ---
-import shared from '../../../src/shared.js'
 
 To protect your packages, as a package publisher, you can require everyone who has write access to a package to have two-factor authentication (2FA) enabled. This will require that users provide 2FA credentials in addition to their login token when they publish the package. For more information, see "[Configuring two-factor authentication][config-2fa]".
 
@@ -9,9 +8,9 @@ You may also choose to allow publishing with either two-factor authentication _o
 
 ## Configuring two-factor authentication
 
-1. <>{shared['user-login'].text}</>
+1. <Shared.user_login.text />
 
-   <>{shared['user-login'].image}</>
+   <Shared.user_login.image />
 
 2. Navigate to the package on which you want to require a second factor to publish or modify settings.
 
