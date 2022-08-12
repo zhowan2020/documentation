@@ -15,7 +15,7 @@ npm <command> [args]
 
 ### Version
 
-6.0.0
+6.14.11
 
 ### Description
 

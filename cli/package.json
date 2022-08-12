@@ -1,0 +1,22 @@
+{
+  "name": "npm-documentation-cli",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "url": "npm/documentation",
+    "directory": "cli"
+  },
+  "scripts": {
+    "build": "node bin/build.js",
+    "update": "node bin/update.js"
+  },
+  "dependencies": {
+    "@octokit/rest": "^19.0.3",
+    "npm-package-arg": "^9.1.0",
+    "npm-registry-fetch": "^13.3.0",
+    "npm-v6": "github:npm/cli#v6-docs",
+    "npm-v7": "github:npm/cli#v7",
+    "npm-v8": "npm:npm@8.17.0",
+    "semver": "^7.3.7"
+  }
+}
